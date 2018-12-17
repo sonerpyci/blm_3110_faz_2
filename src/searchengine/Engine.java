@@ -30,7 +30,7 @@ public class Engine {
 		char temp[] = new char[countsort];
 
 		for(i = 0; i < countsort; i++) {
-			temp[i] = sortArray[i].charAt(1); 
+			temp[i] = sortArray[i].charAt(1);
 	
 			int x = temp[i];
 

@@ -12,7 +12,6 @@ public class Sentence {
 	public Sentence(String[] words) {
 		arraylength = words.length;
 		sentenceArrayVar = new String[words.length];
-		int count = 1;
 
 		/*
 		String sentencer = "";
@@ -62,8 +61,7 @@ public class Sentence {
 			sentenceArrayVar[count] = sentencer;
 			*/
 
-			sentenceArrayVar[count] = String.join(" ", words);  // yukaridakine alternatif
-			count++;
+			sentenceArrayVar[j] = String.join(" ", words);  // yukaridakine alternatif
 		}
 	}
 	
