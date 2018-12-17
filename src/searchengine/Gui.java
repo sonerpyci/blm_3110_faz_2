@@ -49,7 +49,8 @@ public class Gui extends JFrame implements KeyListener {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-		}); }
+		});
+	}
 	
 	
 	
@@ -59,7 +60,7 @@ public class Gui extends JFrame implements KeyListener {
 		setTitle("Metin Indeksleme");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-		JTabbedPane tappedPane = new JTabbedPane();
+			JTabbedPane tappedPane = new JTabbedPane();
 		panel1 = new JPanel(new BorderLayout());
 		panel2= new JPanel();
 		panel3= new JPanel();
