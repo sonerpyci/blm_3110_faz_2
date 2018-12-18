@@ -1,4 +1,4 @@
-.idea/*
-.settings/*
-bin/*
-.git
+/.idea/workspace.xml
+/.settings/*
+/bin/*
+/.git
