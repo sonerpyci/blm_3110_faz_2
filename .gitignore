@@ -1,4 +1,4 @@
-./.idea/*
-./.settings/*
-./bin/*
-./.git
+.idea/*
+.settings/*
+bin/*
+.git

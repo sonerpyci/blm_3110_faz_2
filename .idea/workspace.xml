@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="a4468339-4deb-414e-8e44-ef9365975f31" name="Default Changelist" comment="Default Changelist">
-      <change beforePath="$PROJECT_DIR$/src/searchengine/Engine.java" afterPath="$PROJECT_DIR$/src/searchengine/Engine.java" />
-      <change beforePath="$PROJECT_DIR$/src/searchengine/Gui.java" afterPath="$PROJECT_DIR$/src/searchengine/Gui.java" />
-      <change beforePath="$PROJECT_DIR$/src/searchengine/Sentence.java" afterPath="$PROJECT_DIR$/src/searchengine/Sentence.java" />
-    </list>
+    <list default="true" id="a4468339-4deb-414e-8e44-ef9365975f31" name="Default Changelist" comment="Default Changelist" />
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -191,12 +187,12 @@
       <workItem from="1544987989051" duration="3572000" />
       <workItem from="1545072843591" duration="5332000" />
       <workItem from="1545140778364" duration="29000" />
-      <workItem from="1545146787963" duration="4000000" />
+      <workItem from="1545146787963" duration="4159000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="15406000" />
+    <option name="totallyTimeSpent" value="15565000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-9" y="-9" width="1938" height="1048" extended-state="6" />
