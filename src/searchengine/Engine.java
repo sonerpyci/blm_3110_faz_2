@@ -1,25 +1,28 @@
 package searchengine;
 
+import java.util.ArrayList;
+
 public class Engine {
-	private Sentence [] sentenceArray;
-	private String[] sortArray;
+	private ArrayList<Sentence> sentences;
+    private ArrayList<String> sorted;
 
 	private int count;
 	private int countsort;
 	private int i,j;
 
 	public Engine() {
-		sortArray = new String[100];
-		sentenceArray = new Sentence [100];
-		count = 0;
+        sentences = new ArrayList<Sentence>();
+		sorted = new ArrayList<String>();
+        count = 0;
 		countsort = 0;
 	}
 
 	public void sortArrayCreate() {
 		for(i = 0; i < count; i++) {
-			for(j = 0; j < sentenceArray[i].getArraylength(); j++) {
-				sortArray[countsort] = "";
-				sortArray[countsort] = sortArray[countsort].concat(sentenceArray[i].sentenceArrayVar[j]);
+			for(j = 0; j < sentences.get(i).getWordCount(); j++) {
+                sorted.add("");
+				sorted.set(countsort, sorted.get(countsort).concat(sentences.get(i).getShiftedSentence(j)));
+
 				countsort++;
 			}
 		}
@@ -30,11 +33,11 @@ public class Engine {
 		char temp[] = new char[countsort];
 
 		for(i = 0; i < countsort; i++) {
-			temp[i] = sortArray[i].charAt(1);
+			temp[i] = sorted.get(i).charAt(1);
 	
 			int x = temp[i];
 
-			if(x < 97) {    // Uppercase to lowercase yapiyorlar ama Java ascii kullanmiyor o yuzden bu mantık hatalı buna bakmak lazim
+			if(x < 97) {    // Uppercase to lowercase yapiyorlar ama Java ascii kullanmiyor o yuzden bu mantık hatalı buna bakmak lazim dolayisiyla buradaki karakterlerin ascii tablosundaki gibi olduklarını varsayiyorlar galiba buraya bakmak lazim
 				x = x + 32;
 				temp[i]=(char)x;
 			}
@@ -63,22 +66,22 @@ public class Engine {
 			temp[min_idx] =temp[i];
 			temp[i] = temp2;
 		            
-			String temp3 = sortArray[min_idx];
+			String temp3 = sorted.get(min_idx);
 
-			sortArray[min_idx] = sortArray[i];
-			sortArray[i] = temp3;
+            sorted.set(min_idx, sorted.get(i));
+            sorted.set(i, temp3);
 		}
 	}
 	
 	public void addSentence(Sentence  sentencex) {
-		sentenceArray[count] = sentencex;
+		sentences.set(count, sentencex);
 		count++;
 	}
 	
 	
 	
 	public String listIndex(int i) {
-		return sortArray[i];
+		return sorted.get(i);
 	}
 
 	public int getCountSort() {
