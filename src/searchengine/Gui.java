@@ -1,34 +1,38 @@
 package searchengine;
 
+import java.awt.*;
 import java.sql.SQLException;
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.EventQueue;
-import java.awt.GridLayout;
 
 import java.awt.event.KeyListener;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JTabbedPane;
-import javax.swing.JTextField;
+import javax.swing.*;
 
 public class Gui extends JFrame implements KeyListener {
 	DbService dbService = new DbService();
 	static private final String newline = "\n";
+
 	private JPanel panel1;
 	private JPanel panel2;
 	private JPanel panel3;
+	private JPanel searchPanel;
+
+	private JTextField searchField;
 	private JTextField urlField;
 	private JTextField sentenceField;
+    private JTextField urlResult;
+
+	private JList<String> searchResults;
+
+    private JScrollPane jScrollPane1;
+
 	JButton olustur;
 	ArrayList<Sentence> sentenceList;
-    static int sentencecount=0;
+
+	static int sentencecount=0;
 	static String fullSentence="";
-	
+
 	public static void main(String[] args) {
         EventQueue.invokeLater(() -> {
 			try {
@@ -47,22 +51,46 @@ public class Gui extends JFrame implements KeyListener {
 
 	    setTitle("Metin Indeksleme");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
+
 		JTabbedPane tappedPane = new JTabbedPane();
+
+		searchPanel = new JPanel(new BorderLayout());
+        searchResults = new JList<String>();
+
+        searchResults.setModel(new javax.swing.AbstractListModel() {
+            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            public int getSize() { return strings.length; }
+            public Object getElementAt(int i) { return strings[i]; }
+        });
+
+        searchField = new JTextField("Aranacak kelimeleri giriniz");
+        jScrollPane1 = new JScrollPane();
+
+        jScrollPane1.setViewportView(searchResults);
+        urlResult = new JTextField("Url:");
+        urlResult.setEditable(false);
+
+        searchPanel.add(searchField, BorderLayout.PAGE_START);
+        searchPanel.add(urlResult, BorderLayout.PAGE_END);
+        searchPanel.add(searchResults, BorderLayout.CENTER);
+
 		panel1 = new JPanel(new BorderLayout());
 		panel2= new JPanel();
 		panel3= new JPanel();
 
-		 urlField = new JTextField("Url giriniz");
+		urlField = new JTextField("Url giriniz");
 		sentenceField = new JTextField("Metin giriniz");
-	     olustur= new JButton("olustur");
-	    
-	     panel1.add(urlField,BorderLayout.PAGE_START);
-	     panel1.add(sentenceField,BorderLayout.CENTER);
-	     panel1.add(olustur,BorderLayout.PAGE_END);
+	    olustur= new JButton("olustur");
+
+        panel1.add(urlField,BorderLayout.PAGE_START);
+	    panel1.add(sentenceField,BorderLayout.CENTER);
+	    panel1.add(olustur,BorderLayout.PAGE_END);
+
 	     panel2.setLayout(new GridLayout(20,1));
+
 	     panel3.setLayout(new GridLayout(20,1));
 
+	     tappedPane.add(searchPanel, "Arama");
 	     tappedPane.add(panel1,"Metin Girisi");
 	     tappedPane.add(panel2,"Cıktı");
 	     tappedPane.add(panel3,"URL Indisleme");
