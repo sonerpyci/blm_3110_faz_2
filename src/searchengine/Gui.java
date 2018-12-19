@@ -7,6 +7,7 @@ import java.awt.GridLayout;
 
 import java.awt.event.KeyListener;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -23,8 +24,8 @@ public class Gui extends JFrame implements KeyListener {
 	private JTextField text;
 	private JTextField text2;
 	JButton olustur;
-	static Sentence[] sentarray = new Sentence[100];
-	static int sentencecount=0;
+	ArrayList<Sentence> sentenceList;
+    static int sentencecount=0;
 	static String ex=""; 
 	
 	public static void main(String[] args) {
@@ -41,7 +42,9 @@ public class Gui extends JFrame implements KeyListener {
 	}
 
 	public Gui() {
-		setTitle("Metin Indeksleme");
+		sentenceList = new ArrayList<Sentence>();
+
+	    setTitle("Metin Indeksleme");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		JTabbedPane tappedPane = new JTabbedPane();
@@ -66,9 +69,9 @@ public class Gui extends JFrame implements KeyListener {
 
 	     olustur.addActionListener(e -> {
 	         String ex2 = text.getText();
-				ex=text2.getText();
-				String [] parts=ex.split("\\.");
-				for(int i=0;i<parts.length;i++) {
+				ex = text2.getText();
+				String [] parts = ex.split("\\.");
+				for(int i = 0; i < parts.length; i++) {
 					String[] words = parts[i].split("\\s+");
 					for (int j = 0; j< words.length; j++) {
 						// You may want to check for a non-word character before blindly
@@ -78,20 +81,21 @@ public class Gui extends JFrame implements KeyListener {
 					}
 
 					Sentence wordiex = new Sentence(words);
-					sentarray[i]=wordiex;
+					sentenceList.add(wordiex);
+
 					sentencecount++;
 				}
 
 				Engine searchEngine = new Engine();
 
-				for(int i=0;i<sentencecount;i++) {
-				    searchEngine.addSentence(sentarray[i]);
+				for(int i = 0; i < sentencecount; i++) {
+				    searchEngine.addSentence(sentenceList.get(i));
 				}
 
 				//searchEngine.listItems();
                 searchEngine.sort();
 				/*��kt� sayfas�nda for i�inde print i�lemini buraya yap*/
-				for(int i=0;i<searchEngine.getCountSort();i++) {
+				for(int i = 0; i < searchEngine.getCountSort(); i++) {
 				    JTextField text3 = new JTextField();
 				    text3.setBackground(Color.gray);
 				    text3.setText(searchEngine.listIndex(i));
@@ -100,7 +104,7 @@ public class Gui extends JFrame implements KeyListener {
 				    panel2.repaint();
 				}
 				/*Url sayfas�nda for i�inde print i�lemini buraya yap*/
-				for(int i=0;i<searchEngine.getCountSort();i++) {
+				for(int i= 0 ; i < searchEngine.getCountSort(); i++) {
 				    JTextField text4 = new JTextField();
 				    text4.setBackground(Color.gray);
 				    text4.setText(ex2+"/"+searchEngine.listIndex(i));
