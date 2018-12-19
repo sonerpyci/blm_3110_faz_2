@@ -7,29 +7,30 @@ import java.util.List;
 public class Sentence {
 	private int wordCount; // Number of words in a sentence
 
-	private ArrayList<String> shiftedSentences;
+	private ArrayList<ShiftedSentence> shiftedSentences;
 
 	public Sentence(String[] words) {
-		System.out.println("1-" + String.join("*", words));
-		words = removeStopWords(words); // stop word'leri direkt dahil etmedim olusturulanlardan dolayısıyla search edilecek cumle girildiginden de oncelikle stop wordslerden arindirilacak. Stop words'ler indexlemeye dahil edilmedi.
-		System.out.println("Sentence Constructor");
-		System.out.println(String.join(" ", words));
-	    wordCount = words.length;
-		shiftedSentences = new ArrayList<String>();
 
-		shiftedSentences.add(String.join(" ", words));
+		words = removeStopWords(words); // stop word'leri direkt dahil etmedim olusturulanlardan dolayısıyla search edilecek cumle girildiginden de oncelikle stop wordslerden arindirilacak. Stop words'ler indexlemeye dahil edilmedi.
+
+	    wordCount = words.length;
+		shiftedSentences = new ArrayList<ShiftedSentence>();
 
 		// Kelimeleri shift ederek yeni cümleler olusturur.
-		for(int j = 1; j < words.length; j++) {
+		for(int i= 0; i < words.length; i++) {
 			// Shifting words[] to left
-			List<String> wordsList = new ArrayList<>(Arrays.asList(words)).subList(1, words.length);
-			System.out.println(String.join("=", wordsList));
-			System.out.println(words[0]);
-			wordsList.add(words[0]);
-			words = wordsList.toArray(new String[0]);
-
-			shiftedSentences.add(String.join(" ", words));
+			float new_score = (float)1/(words.length * (i+1));
+			ShiftedSentence shiftedSentence = new ShiftedSentence(String.join(" ", words), new_score);
+			shiftedSentences.add(shiftedSentence);
+			words = shiftSentenceLeft(words);
 		}
+	}
+
+	public String[] shiftSentenceLeft(String[] words) {
+		List<String> wordsList = new ArrayList<>(Arrays.asList(words));
+		wordsList.add(wordsList.remove(0));
+
+		return wordsList.toArray(new String[0]);
 	}
 
 	public int getWordCount() {
@@ -37,7 +38,7 @@ public class Sentence {
 	}
 
 	public String getShiftedSentence(int i) {
-		return shiftedSentences.get(i);
+		return shiftedSentences.get(i).getProcessedSentence();
 	}
 
 	public ArrayList<String> getStopWords(){
