@@ -6,11 +6,14 @@ import java.util.List;
 
 public class Sentence {
 	private int wordCount; // Number of words in a sentence
+	private String fullSentence;
+	private String url;
 
 	private ArrayList<ShiftedSentence> shiftedSentences;
 
-	public Sentence(String[] words) {
-
+	public Sentence(String[] words, String url) {
+		this.fullSentence = String.join(" ", words);
+		this.url = url;
 		words = removeStopWords(words); // stop word'leri direkt dahil etmedim olusturulanlardan dolayısıyla search edilecek cumle girildiginden de oncelikle stop wordslerden arindirilacak. Stop words'ler indexlemeye dahil edilmedi.
 
 	    wordCount = words.length;
@@ -41,13 +44,17 @@ public class Sentence {
 		return shiftedSentences.get(i).getProcessedSentence();
 	}
 
-	public ArrayList<String> getStopWords(){
+	public ArrayList<ShiftedSentence> getShiftedSentences() {
+		return shiftedSentences;
+	}
+
+	private ArrayList<String> getStopWords(){
         String[] stopWords = new String[]{"vs","a","the","of","from","to", "someone"};
 
         return new ArrayList<String>(Arrays.asList(stopWords));
     }
 
-    public String[] removeStopWords(String[] words){
+	public String[] removeStopWords(String[] words){
 		ArrayList<String> wordsList = new ArrayList<String>();
 	    ArrayList<String> stopWords = getStopWords();
 
@@ -60,4 +67,20 @@ public class Sentence {
 		System.out.println(String.join("#", wordsList));
         return wordsList.toArray(new String[0]);
     }
+
+	public String getFullSentence() {
+		return fullSentence;
+	}
+
+	public void setFullSentence(String fullSentence) {
+		this.fullSentence = fullSentence;
+	}
+
+	public String getUrl() {
+		return url;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
+	}
 }

@@ -20,9 +20,8 @@ public class Engine {
 	public void sortArrayCreate() {
 		for(i = 0; i < count; i++) {
 			for(j = 0; j < sentences.get(i).getWordCount(); j++) {
-                sorted.add("");
+				sorted.add("");
 				sorted.set(countsort, sorted.get(countsort).concat(sentences.get(i).getShiftedSentence(j)));
-
 				countsort++;
 			}
 		}
@@ -33,14 +32,7 @@ public class Engine {
 		char temp[] = new char[countsort];
 
 		for(i = 0; i < countsort; i++) {
-			temp[i] = sorted.get(i).charAt(1);
-	
-			int x = temp[i];
-
-			if(x < 97) {    // Uppercase to lowercase yapiyorlar ama Java ascii kullanmiyor o yuzden bu mantık hatalı buna bakmak lazim dolayisiyla buradaki karakterlerin ascii tablosundaki gibi olduklarını varsayiyorlar galiba buraya bakmak lazim
-				x = x + 32;
-				temp[i]=(char)x;
-			}
+			temp[i] = sorted.get(i).toLowerCase().charAt(1);
 		}
 
 		int n = countsort;

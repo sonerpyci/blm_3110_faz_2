@@ -1,5 +1,6 @@
 package searchengine;
 
+import java.sql.SQLException;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.EventQueue;
@@ -16,17 +17,17 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 
 public class Gui extends JFrame implements KeyListener {
-	
+	DbService dbService = new DbService();
 	static private final String newline = "\n";
 	private JPanel panel1;
 	private JPanel panel2;
 	private JPanel panel3;
-	private JTextField text;
-	private JTextField text2;
+	private JTextField urlField;
+	private JTextField sentenceField;
 	JButton olustur;
 	ArrayList<Sentence> sentenceList;
     static int sentencecount=0;
-	static String ex=""; 
+	static String fullSentence="";
 	
 	public static void main(String[] args) {
         EventQueue.invokeLater(() -> {
@@ -52,12 +53,12 @@ public class Gui extends JFrame implements KeyListener {
 		panel2= new JPanel();
 		panel3= new JPanel();
 
-		 text = new JTextField("Url giriniz");
-		 text2 = new JTextField("Metin giriniz");
-	     olustur= new JButton("Olustur"); 
+		 urlField = new JTextField("Url giriniz");
+		sentenceField = new JTextField("Metin giriniz");
+	     olustur= new JButton("olustur");
 	    
-	     panel1.add(text,BorderLayout.PAGE_START);
-	     panel1.add(text2,BorderLayout.CENTER);
+	     panel1.add(urlField,BorderLayout.PAGE_START);
+	     panel1.add(sentenceField,BorderLayout.CENTER);
 	     panel1.add(olustur,BorderLayout.PAGE_END);
 	     panel2.setLayout(new GridLayout(20,1));
 	     panel3.setLayout(new GridLayout(20,1));
@@ -68,9 +69,9 @@ public class Gui extends JFrame implements KeyListener {
 	     add(tappedPane);
 
 	     olustur.addActionListener(e -> {
-	         String ex2 = text.getText();
-				ex = text2.getText();
-				String [] parts = ex.split("\\."); // Burada noktayı kaldırıyorlar. Onun yerine tüm punctutationlar kaldırılmalı.
+	         String url = urlField.getText();
+			 fullSentence = sentenceField.getText();
+				String [] parts = fullSentence.split("\\."); // Burada noktayı kaldırıyorlar. Onun yerine tüm punctutationlar kaldırılmalı.
 				//System.out.println(String.join(" ", parts));
 				for(int i = 0; i < parts.length; i++) {
 					String[] words = parts[i].split("\\s+"); // cumleyi kelime kelime ayırıyorlar.
@@ -80,8 +81,13 @@ public class Gui extends JFrame implements KeyListener {
 						// It may also be necessary to adjust the character class
 						words[j] = words[j].replaceAll("[^\\w]", "");
 					}
-
-					Sentence wordiex = new Sentence(words);
+					Sentence wordiex = new Sentence(words, url);
+					try{
+						int content_id = dbService.saveFullSentence(wordiex);
+						dbService.saveShiftedSentences(wordiex.getShiftedSentences(), content_id);
+					}catch(SQLException exception){ //Eğer bu hata yenirse db de eklenemedi tarzından uyarı verilecek. ama sistem çaısmaya devam edecek
+						exception.printStackTrace();
+					}
 					sentenceList.add(wordiex);
 
 					sentencecount++;
@@ -108,7 +114,7 @@ public class Gui extends JFrame implements KeyListener {
 				for(int i= 0 ; i < searchEngine.getCountSort(); i++) {
 				    JTextField text4 = new JTextField();
 				    text4.setBackground(Color.gray);
-				    text4.setText(ex2+"/"+searchEngine.listIndex(i));
+				    text4.setText(url+" ===>\t"+searchEngine.listIndex(i));
 				    panel3.add(text4);
 				    panel3.revalidate();
 				    panel3.repaint();
