@@ -22,6 +22,15 @@ public class DbService {
         }
     }
 
+    public ResultSet getSuggestions(String key){
+        ResultSet result = dbManager.executeQuery("SELECT DISTINCT `cof`.`url`, `cof`.`content` FROM Indexes as i " +
+                "JOIN Contents_of_Indexes as cof ON(cof.id = i.orig_content_id) " +
+                "WHERE i.processed_content like \"%"+ key + "%\" " +
+                "ORDER BY i.point DESC LIMIT 0,5");
+        return result;
+    }
+
+
     public int saveFullSentence(Sentence sentence) throws SQLException {
         ResultSet result = null;
         try {
