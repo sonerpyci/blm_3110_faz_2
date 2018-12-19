@@ -70,9 +70,10 @@ public class Gui extends JFrame implements KeyListener {
 	     olustur.addActionListener(e -> {
 	         String ex2 = text.getText();
 				ex = text2.getText();
-				String [] parts = ex.split("\\.");
+				String [] parts = ex.split("\\."); // Burada noktayı kaldırıyorlar. Onun yerine tüm punctutationlar kaldırılmalı.
+				//System.out.println(String.join(" ", parts));
 				for(int i = 0; i < parts.length; i++) {
-					String[] words = parts[i].split("\\s+");
+					String[] words = parts[i].split("\\s+"); // cumleyi kelime kelime ayırıyorlar.
 					for (int j = 0; j< words.length; j++) {
 						// You may want to check for a non-word character before blindly
 						// performing a replacement

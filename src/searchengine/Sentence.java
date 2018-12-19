@@ -10,8 +10,10 @@ public class Sentence {
 	private ArrayList<String> shiftedSentences;
 
 	public Sentence(String[] words) {
+		System.out.println("1-" + String.join("*", words));
 		words = removeStopWords(words); // stop word'leri direkt dahil etmedim olusturulanlardan dolayısıyla search edilecek cumle girildiginden de oncelikle stop wordslerden arindirilacak. Stop words'ler indexlemeye dahil edilmedi.
-
+		System.out.println("Sentence Constructor");
+		System.out.println(String.join(" ", words));
 	    wordCount = words.length;
 		shiftedSentences = new ArrayList<String>();
 
@@ -20,9 +22,11 @@ public class Sentence {
 		// Kelimeleri shift ederek yeni cümleler olusturur.
 		for(int j = 1; j < words.length; j++) {
 			// Shifting words[] to left
-			List<String> wordsList = Arrays.asList(words).subList(1, words.length);
+			List<String> wordsList = new ArrayList<>(Arrays.asList(words)).subList(1, words.length);
+			System.out.println(String.join("=", wordsList));
+			System.out.println(words[0]);
 			wordsList.add(words[0]);
-			words = (String[])wordsList.toArray();
+			words = wordsList.toArray(new String[0]);
 
 			shiftedSentences.add(String.join(" ", words));
 		}
@@ -43,15 +47,16 @@ public class Sentence {
     }
 
     public String[] removeStopWords(String[] words){
-        ArrayList<String> wordsList = new ArrayList<String>();
+		ArrayList<String> wordsList = new ArrayList<String>();
 	    ArrayList<String> stopWords = getStopWords();
 
 	    for(int i = 0; i < words.length; i++) {
-	        if(stopWords.indexOf(words[i]) != -1){
+	    	System.out.println(stopWords.indexOf(words[i]) == -1);
+	        if(stopWords.indexOf(words[i]) == -1){
 	            wordsList.add(words[i]);
             }
         }
-
-        return (String[])wordsList.toArray();
+		System.out.println(String.join("#", wordsList));
+        return wordsList.toArray(new String[0]);
     }
 }

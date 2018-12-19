@@ -74,7 +74,7 @@ public class Engine {
 	}
 	
 	public void addSentence(Sentence  sentencex) {
-		sentences.set(count, sentencex);
+		sentences.add(sentencex);
 		count++;
 	}
 	
