@@ -54,7 +54,7 @@ public class Engine {
 				int s = temp[j];
 				int o = temp[min_idx];
 		            	
-				if (s< o) {
+				if (s < o) {
 					min_idx = j;
 				}
 			}
