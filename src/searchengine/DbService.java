@@ -1,8 +1,12 @@
 package searchengine;
 
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class DbService {
     private DbManager dbManager;
@@ -22,12 +26,22 @@ public class DbService {
         }
     }
 
-    public ResultSet getSuggestions(String key){
-        ResultSet result = dbManager.executeQuery("SELECT DISTINCT `cof`.`url`, `cof`.`content` FROM Indexes as i " +
+    public List getSuggestions(String key)  throws SQLException{
+        ResultSet rs = dbManager.executeQuery("SELECT DISTINCT `cof`.`url`, `cof`.`content` FROM Indexes as i " +
                 "JOIN Contents_of_Indexes as cof ON(cof.id = i.orig_content_id) " +
                 "WHERE i.processed_content like \"%"+ key + "%\" " +
                 "ORDER BY i.point DESC LIMIT 0,5");
-        return result;
+        ResultSetMetaData md = rs.getMetaData();
+        int columns = md.getColumnCount();
+        List<Map<String, Object>> list = new ArrayList<>();
+        while (rs.next()) {
+            Map<String, Object> row = new HashMap<>(columns);
+            for (int i = 1; i <= columns; ++i) {
+                row.put(md.getColumnName(i), rs.getObject(i));
+            }
+            list.add(row);
+        }
+        return list;
     }
 
 
